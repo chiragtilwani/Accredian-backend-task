@@ -4,11 +4,11 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { validateRequest, referralSchema } = require('./validationMiddleware');
+const { validateRequest, referralSchema } = require('./middlewares/validationMiddleware');
 
 const app = express();
 const prisma = new PrismaClient();
-
+console.log(process.env.DATABASE_URL)
 app.use(express.json());
 
 const generateToken = (user) => {
@@ -33,7 +33,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Register endpoint
 app.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -55,7 +54,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Login endpoint
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
